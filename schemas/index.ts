@@ -16,3 +16,21 @@ export const RegisterSchema = z.object({
     message: "Name is required",
   }),
 });
+
+export const ResetSchema = z.object({
+  email: z.string().email({ message: "email is required" }),
+});
+
+export const NewPasswordSchema = z
+  .object({
+    password: z.string().min(6, {
+      message: "Minmum 6 characters required",
+    }),
+    confirmPassword: z.string().min(6, {
+      message: "Minmum 6 characters required",
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
